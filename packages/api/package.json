@@ -1,0 +1,34 @@
+{
+  "name": "@repo/api",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./src/*.ts"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "tsdown": "^0.15.12"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@orpc/server": "^1.11.2",
+    "@orpc/client": "^1.11.2",
+    "@orpc/openapi": "^1.11.2",
+    "@orpc/zod": "^1.11.2",
+    "hono": "^4.10.6",
+    "dotenv": "^17.2.3",
+    "zod": "^4.1.12",
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*"
+  }
+}
