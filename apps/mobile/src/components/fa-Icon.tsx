@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-export const TabBarIcon = (props: {
+export const FAIcon = (props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) => {

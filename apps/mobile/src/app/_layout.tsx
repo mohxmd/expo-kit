@@ -1,73 +1,58 @@
-import { DarkTheme, DefaultTheme, type Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef } from "react";
-import { ActivityIndicator, Platform, StyleSheet } from "react-native";
+import { useEffect, useLayoutEffect } from "react";
+import { ActivityIndicator, Platform, StyleSheet, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { authClient } from "~/lib/auth-client";
-import { NAV_THEME } from "~/lib/constants";
 import { queryClient } from "~/lib/orpc";
-import { useColorScheme } from "~/lib/use-color-scheme";
-
-const LIGHT_THEME: Theme = {
-  ...DefaultTheme,
-  colors: NAV_THEME.light,
-};
-const DARK_THEME: Theme = {
-  ...DarkTheme,
-  colors: NAV_THEME.dark,
-};
+import { ThemeProvider } from "~/lib/theme";
 
 export const unstable_settings = {
   initialRouteName: "(drawer)",
 };
 
 const useIsomorphicLayoutEffect =
-  Platform.OS === "web" && typeof window === "undefined" ? React.useEffect : React.useLayoutEffect;
+  Platform.OS === "web" && typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loading: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export default function RootLayout() {
-  const hasMounted = useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  useIsomorphicLayoutEffect(() => {
+    setAndroidNavigationBar(isDark).catch(console.error);
+  }, [isDark]);
 
   const { data: session, isPending } = authClient.useSession();
 
-  useIsomorphicLayoutEffect(() => {
-    if (hasMounted.current) {
-      return;
-    }
-    setAndroidNavigationBar(colorScheme);
-    setIsColorSchemeLoaded(true);
-    hasMounted.current = true;
-  }, []);
-
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
-
-  if (isPending)
+  if (isPending) {
+    // TODO: later <SplashScreen />
     return (
-      <GestureHandlerRootView style={styles.container}>
+      <GestureHandlerRootView style={styles.loading}>
         <ActivityIndicator size="large" />
       </GestureHandlerRootView>
     );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} translucent animated />
-
+      <ThemeProvider>
+        <StatusBar style="auto" translucent animated />
         <GestureHandlerRootView style={styles.container}>
           <SafeAreaProvider>
             <KeyboardProvider>

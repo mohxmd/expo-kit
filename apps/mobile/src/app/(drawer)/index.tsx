@@ -1,118 +1,85 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "expo-router";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import { Container } from "~/components/container";
 import { authClient } from "~/lib/auth-client";
-import { NAV_THEME } from "~/lib/constants";
 import { orpc, queryClient } from "~/lib/orpc";
-import { useColorScheme } from "~/lib/use-color-scheme";
+import { createStyles, useTheme } from "~/lib/theme";
 
 export default function Home() {
-  const { colorScheme } = useColorScheme();
-  const theme = colorScheme === "dark" ? NAV_THEME.dark : NAV_THEME.light;
+  const { theme } = useTheme();
+  const styles = useStyles();
+
   const healthCheck = useQuery(orpc.healthCheck.queryOptions());
   const privateData = useQuery(orpc.privateData.queryOptions());
   const isConnected = healthCheck?.data === "OK";
   const isLoading = healthCheck?.isLoading;
+
   const { data: session } = authClient.useSession();
 
   return (
-    <Container>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.content}>
-          <Text style={[styles.title, { color: theme.text }]}>Expo Kit</Text>
+    <ScrollView style={styles.scrollView}>
+      <Text style={[styles.title, { color: theme.text }]}>Expo Kit</Text>
 
-          {session?.user ? (
-            <View
-              style={[styles.userCard, { backgroundColor: theme.card, borderColor: theme.border }]}
-            >
-              <View style={styles.userHeader}>
-                <Text style={[styles.userText, { color: theme.text }]}>
-                  Welcome, <Text style={styles.userName}>{session.user.name}</Text>
-                </Text>
-              </View>
-              <Text style={[styles.userEmail, { color: theme.text, opacity: 0.7 }]}>
-                {session.user.email}
-              </Text>
-              <TouchableOpacity
-                style={[styles.signOutButton, { backgroundColor: theme.notification }]}
-                onPress={() => {
-                  authClient.signOut();
-                  queryClient.invalidateQueries();
-                }}
-              >
-                <Text style={styles.signOutText}>Sign Out</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={styles.authButtonsContainer}>
-              <Link href="/(auth)/sign-in" asChild>
-                <TouchableOpacity style={[styles.authButton, { backgroundColor: theme.primary }]}>
-                  <Text style={styles.authButtonText}>Sign In</Text>
-                </TouchableOpacity>
-              </Link>
-              <Link href="/(auth)/sign-up" asChild>
-                <TouchableOpacity
-                  style={[
-                    styles.authButton,
-                    { backgroundColor: theme.card, borderColor: theme.border, borderWidth: 1 },
-                  ]}
-                >
-                  <Text style={[styles.authButtonText, { color: theme.text }]}>Sign Up</Text>
-                </TouchableOpacity>
-              </Link>
-            </View>
-          )}
+      <View style={[styles.userCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        <View style={styles.userHeader}>
+          <Text style={[styles.userText, { color: theme.text }]}>
+            Welcome, <Text style={styles.userName}>{session?.user.name}</Text>
+          </Text>
+        </View>
+        <Text style={[styles.userEmail, { color: theme.text, opacity: 0.7 }]}>
+          {session?.user.email}
+        </Text>
+        <TouchableOpacity
+          style={[styles.signOutButton, { backgroundColor: theme.error }]}
+          onPress={() => {
+            authClient.signOut();
+            queryClient.invalidateQueries();
+          }}
+        >
+          <Text style={styles.signOutText}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
 
-          <View
-            style={[styles.statusCard, { backgroundColor: theme.card, borderColor: theme.border }]}
-          >
-            <Text style={[styles.cardTitle, { color: theme.text }]}>System Status</Text>
-            <View style={styles.statusRow}>
-              <View
-                style={[
-                  styles.statusIndicator,
-                  { backgroundColor: isConnected ? "#10b981" : "#ef4444" },
-                ]}
-              />
-              <View style={styles.statusContent}>
-                <Text style={[styles.statusTitle, { color: theme.text }]}>ORPC Backend</Text>
-                <Text style={[styles.statusText, { color: theme.text, opacity: 0.7 }]}>
-                  {isLoading
-                    ? "Checking connection..."
-                    : isConnected
-                      ? "Connected to API"
-                      : "API Disconnected"}
-                </Text>
-              </View>
-            </View>
-          </View>
-
+      <View style={[styles.statusCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        <Text style={[styles.cardTitle, { color: theme.text }]}>System Status</Text>
+        <View style={styles.statusRow}>
           <View
             style={[
-              styles.privateDataCard,
-              { backgroundColor: theme.card, borderColor: theme.border },
+              styles.statusIndicator,
+              { backgroundColor: isConnected ? "#10b981" : "#ef4444" },
             ]}
-          >
-            <Text style={[styles.cardTitle, { color: theme.text }]}>Private Data</Text>
-            {privateData && (
-              <Text style={[styles.privateDataText, { color: theme.text, opacity: 0.7 }]}>
-                {privateData.data?.message}
-              </Text>
-            )}
+          />
+          <View style={styles.statusContent}>
+            <Text style={[styles.statusTitle, { color: theme.text }]}>ORPC Backend</Text>
+            <Text style={[styles.statusText, { color: theme.text, opacity: 0.7 }]}>
+              {isLoading
+                ? "Checking connection..."
+                : isConnected
+                  ? "Connected to API"
+                  : "API Disconnected"}
+            </Text>
           </View>
         </View>
-      </ScrollView>
-    </Container>
+      </View>
+
+      <View
+        style={[styles.privateDataCard, { backgroundColor: theme.card, borderColor: theme.border }]}
+      >
+        <Text style={[styles.cardTitle, { color: theme.text }]}>Private Data</Text>
+        {privateData && (
+          <Text style={[styles.privateDataText, { color: theme.text, opacity: 0.7 }]}>
+            {privateData.data?.message}
+          </Text>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+const useStyles = createStyles((theme) => ({
   scrollView: {
     flex: 1,
-  },
-  content: {
+    backgroundColor: theme.background,
     padding: 16,
   },
   title: {
@@ -145,22 +112,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   signOutText: {
-    color: "#ffffff",
+    color: "#fff",
     fontWeight: "600",
-  },
-  authButtonsContainer: {
-    gap: 12,
-    marginBottom: 16,
-  },
-  authButton: {
-    padding: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  authButtonText: {
-    color: "#ffffff",
-    fontWeight: "600",
-    fontSize: 16,
   },
   statusCard: {
     marginBottom: 16,
@@ -202,4 +155,4 @@ const styles = StyleSheet.create({
   privateDataText: {
     fontSize: 14,
   },
-});
+}));

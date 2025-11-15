@@ -1,31 +1,28 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
-import { Container } from "~/components/container";
-import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/use-color-scheme";
+import { createStyles, useTheme } from "~/lib/theme";
 
 export default function TabOne() {
-  const { colorScheme } = useColorScheme();
-  const theme = colorScheme === "dark" ? NAV_THEME.dark : NAV_THEME.light;
+  const { theme } = useTheme();
+  const styles = useStyles();
 
   return (
-    <Container>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.content}>
-          <Text style={[styles.title, { color: theme.text }]}>Tab One</Text>
-          <Text style={[styles.subtitle, { color: theme.text, opacity: 0.7 }]}>
-            Explore the first section of your app
-          </Text>
-        </View>
-      </ScrollView>
-    </Container>
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.content}>
+        <Text style={[styles.title, { color: theme.text }]}>Tab One</Text>
+        <Text style={[styles.subtitle, { color: theme.text, opacity: 0.7 }]}>
+          Explore the first section of your app
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+const useStyles = createStyles((theme) => ({
   scrollView: {
     flex: 1,
     padding: 16,
+    backgroundColor: theme.background,
   },
   content: {
     paddingVertical: 16,
@@ -38,4 +35,4 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
   },
-});
+}));

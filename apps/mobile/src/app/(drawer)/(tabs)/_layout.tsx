@@ -1,12 +1,10 @@
 import { Tabs } from "expo-router";
 
-import { TabBarIcon } from "~/components/tabbar-icon";
-import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/use-color-scheme";
+import { FAIcon } from "~/components/fa-Icon";
+import { useTheme } from "~/lib/theme";
 
 export default function TabLayout() {
-  const { isDarkColorScheme } = useColorScheme();
-  const theme = isDarkColorScheme ? NAV_THEME.dark : NAV_THEME.light;
+  const { theme } = useTheme();
 
   return (
     <Tabs
@@ -24,14 +22,14 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <FAIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
           title: "Explore",
-          tabBarIcon: ({ color }) => <TabBarIcon name="compass" color={color} />,
+          tabBarIcon: ({ color }) => <FAIcon name="compass" color={color} />,
         }}
       />
     </Tabs>

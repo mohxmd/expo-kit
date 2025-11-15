@@ -1,0 +1,337 @@
+{
+  "createStyles Hook": {
+    "prefix": "ucs",
+    "body": [
+      "const useStyles = createStyles((theme) => ({",
+      "  $1: {",
+      "    $2",
+      "  },",
+      "}));"
+    ],
+    "description": "createStyles hook with theme"
+  },
+  "useTheme Hook": {
+    "prefix": "uth",
+    "body": [
+      "const { theme } = useTheme();"
+    ],
+    "description": "useTheme hook"
+  },
+  "Themed Component": {
+    "prefix": "extheme",
+    "body": [
+      "import { View, Text } from 'react-native';",
+      "import { createStyles } from '~/lib/theme';",
+      "",
+      "type ${1:Component}Props = {",
+      "  $2",
+      "};",
+      "",
+      "export function ${1:Component}({}: ${1:Component}Props) {",
+      "  const styles = useStyles();",
+      "",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      <Text>${1:Component}</Text>",
+      "    </View>",
+      "  );",
+      "}",
+      "",
+      "const useStyles = createStyles((theme) => ({",
+      "  container: {",
+      "    flex: 1,",
+      "    backgroundColor: theme.background,",
+      "  },",
+      "}));"
+    ],
+    "description": "Component with createStyles and theme"
+  },
+  "Themed Screen": {
+    "prefix": "exthemescreen",
+    "body": [
+      "import { View, Text, ScrollView } from 'react-native';",
+      "import { createStyles } from '~/lib/theme';",
+      "",
+      "export default function ${1:Screen}() {",
+      "  const styles = useStyles();",
+      "",
+      "  return (",
+      "    <ScrollView style={styles.container}>",
+      "      <View style={styles.content}>",
+      "        <Text>${1:Screen}</Text>",
+      "      </View>",
+      "    </ScrollView>",
+      "  );",
+      "}",
+      "",
+      "const useStyles = createStyles((theme) => ({",
+      "  container: {",
+      "    flex: 1,",
+      "    backgroundColor: theme.background,",
+      "  },",
+      "  content: {",
+      "    padding: 16,",
+      "  },",
+      "}));"
+    ],
+    "description": "Screen with createStyles and theme"
+  },
+  "Themed Text": {
+    "prefix": "rntt",
+    "body": [
+      "<Text style={[styles.$1, { color: theme.text }]}>$2</Text>"
+    ],
+    "description": "Themed Text component"
+  },
+  "useMemo": {
+    "prefix": "umemo",
+    "body": [
+      "const $1 = useMemo(() => {",
+      "  return $2;",
+      "}, [$3]);"
+    ],
+    "description": "useMemo hook"
+  },
+  "useCallback": {
+    "prefix": "ucb",
+    "body": [
+      "const $1 = useCallback(($2) => {",
+      "  $3",
+      "}, [$4]);"
+    ],
+    "description": "useCallback hook"
+  },
+  "useRef": {
+    "prefix": "uref",
+    "body": [
+      "const $1 = useRef$2();"
+    ],
+    "description": "useRef hook"
+  },
+  "FlatList": {
+    "prefix": "rnfl",
+    "body": [
+      "<FlatList",
+      "  data={$1}",
+      "  keyExtractor={(item) => item.id}",
+      "  renderItem={({ item }) => (",
+      "    $2",
+      "  )}",
+      "/>"
+    ],
+    "description": "React Native FlatList"
+  },
+  "Pressable": {
+    "prefix": "rnp",
+    "body": [
+      "<Pressable onPress={$1}>",
+      "  $2",
+      "</Pressable>"
+    ],
+    "description": "React Native Pressable"
+  },
+  "Animated View": {
+    "prefix": "rnav",
+    "body": [
+      "const ${1:anim}Value = useRef(new Animated.Value(0)).current;",
+      "",
+      "<Animated.View style={{ opacity: ${1:anim}Value }}>",
+      "  $2",
+      "</Animated.View>"
+    ],
+    "description": "React Native Animated View"
+  },
+  "SafeAreaView": {
+    "prefix": "rnsav",
+    "body": [
+      "<SafeAreaView style={styles.$1}>",
+      "  $2",
+      "</SafeAreaView>"
+    ],
+    "description": "React Native SafeAreaView"
+  },
+  "ScrollView": {
+    "prefix": "rnsv",
+    "body": [
+      "<ScrollView style={styles.$1}>",
+      "  $2",
+      "</ScrollView>"
+    ],
+    "description": "React Native ScrollView"
+  },
+  "KeyboardAvoidingView": {
+    "prefix": "rnkav",
+    "body": [
+      "<KeyboardAvoidingView",
+      "  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}",
+      "  style={styles.$1}",
+      ">",
+      "  $2",
+      "</KeyboardAvoidingView>"
+    ],
+    "description": "React Native KeyboardAvoidingView"
+  },
+  "TextInput": {
+    "prefix": "rnti",
+    "body": [
+      "<TextInput",
+      "  value={$1}",
+      "  onChangeText={set$1}",
+      "  placeholder=\"$2\"",
+      "  style={styles.input}",
+      "/>"
+    ],
+    "description": "React Native TextInput"
+  },
+  "Image": {
+    "prefix": "rnimg",
+    "body": [
+      "<Image",
+      "  source={$1}",
+      "  style={styles.$2}",
+      "  resizeMode=\"$3\"",
+      "/>"
+    ],
+    "description": "React Native Image"
+  },
+  "Modal": {
+    "prefix": "rnm",
+    "body": [
+      "<Modal",
+      "  visible={$1}",
+      "  animationType=\"slide\"",
+      "  onRequestClose={() => set$1(false)}",
+      ">",
+      "  $2",
+      "</Modal>"
+    ],
+    "description": "React Native Modal"
+  },
+  "ActivityIndicator": {
+    "prefix": "rnai",
+    "body": [
+      "<ActivityIndicator size=\"large\" color=\"$1\" />"
+    ],
+    "description": "React Native ActivityIndicator"
+  },
+  "Expo Router Stack": {
+    "prefix": "exstack",
+    "body": [
+      "<Stack screenOptions={{ headerShown: false }}>",
+      "  <Stack.Screen name=\"$1\" />",
+      "</Stack>"
+    ],
+    "description": "Expo Router Stack"
+  },
+  "Expo Router Tabs": {
+    "prefix": "extabs",
+    "body": [
+      "<Tabs screenOptions={{ headerShown: false }}>",
+      "  <Tabs.Screen name=\"$1\" />",
+      "</Tabs>"
+    ],
+    "description": "Expo Router Tabs"
+  },
+  "useRouter Hook": {
+    "prefix": "ur",
+    "body": [
+      "const router = useRouter();"
+    ],
+    "description": "useRouter hook"
+  },
+  "useLocalSearchParams": {
+    "prefix": "ulsp",
+    "body": [
+      "const { $1 } = useLocalSearchParams<{ $1: string }>();"
+    ],
+    "description": "useLocalSearchParams hook"
+  },
+  "Theme Colors": {
+    "prefix": "thc",
+    "body": [
+      "backgroundColor: theme.background,",
+      "color: theme.text,"
+    ],
+    "description": "Theme colors"
+  },
+  "Spacing": {
+    "prefix": "sp",
+    "body": [
+      "padding: spacing.$1,"
+    ],
+    "description": "Spacing helper"
+  },
+  "Shadow": {
+    "prefix": "shd",
+    "body": [
+      "...shadow.$1,"
+    ],
+    "description": "Shadow helper"
+  },
+  "Platform Select": {
+    "prefix": "pls",
+    "body": [
+      "Platform.select({",
+      "  ios: $1,",
+      "  android: $2,",
+      "})"
+    ],
+    "description": "Platform.select"
+  },
+  "Dimensions": {
+    "prefix": "dim",
+    "body": [
+      "const { width, height } = Dimensions.get('window');"
+    ],
+    "description": "Dimensions.get"
+  },
+  "useLayoutEffect": {
+    "prefix": "ule",
+    "body": [
+      "useLayoutEffect(() => {",
+      "  $1",
+      "}, [$2]);"
+    ],
+    "description": "useLayoutEffect hook"
+  },
+  "Gesture Handler": {
+    "prefix": "rngh",
+    "body": [
+      "<GestureHandlerRootView style={{ flex: 1 }}>",
+      "  $1",
+      "</GestureHandlerRootView>"
+    ],
+    "description": "GestureHandlerRootView"
+  },
+  "Reanimated Animated Style": {
+    "prefix": "uas",
+    "body": [
+      "const animatedStyle = useAnimatedStyle(() => ({",
+      "  $1: $2,",
+      "}));"
+    ],
+    "description": "useAnimatedStyle hook"
+  },
+  "Reanimated Shared Value": {
+    "prefix": "usv",
+    "body": [
+      "const $1 = useSharedValue($2);"
+    ],
+    "description": "useSharedValue hook"
+  },
+  "Auth Check": {
+    "prefix": "auth",
+    "body": [
+      "const { data: session, isPending } = authClient.useSession();",
+      "",
+      "if (isPending) {",
+      "  return <ActivityIndicator />;",
+      "}",
+      "",
+      "if (!session) {",
+      "  return <Redirect href=\"/auth\" />;",
+      "}"
+    ],
+    "description": "Auth session check"
+  }
+}

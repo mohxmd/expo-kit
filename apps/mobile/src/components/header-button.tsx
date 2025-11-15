@@ -1,12 +1,10 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Pressable, StyleSheet } from "react-native";
 
-import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/use-color-scheme";
+import { useTheme } from "~/lib/theme";
 
 export function HeaderButton({ onPress }: { onPress?: () => void }) {
-  const { colorScheme } = useColorScheme();
-  const theme = colorScheme === "dark" ? NAV_THEME.dark : NAV_THEME.light;
+  const { theme } = useTheme();
 
   return (
     <Pressable
